@@ -17,38 +17,33 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+This recommender uses a content-based approach: it compares each song’s features with a simple user taste profile.
 
-Some prompts to answer:
+**User profile**
+- Preferred genre: Hip-Hop
+- Preferred mood: Energetic
+- Target energy: 0.8
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
-
-You can include a simple diagram or bullet list if helpful.
-
-### How The System Works
-
-Real-world music recommendation systems analyze user behavior and song characteristics to predict which songs a listener might enjoy. Collaborative filtering uses listening patterns from similar users, while content-based filtering recommends songs based on their attributes. My simulation will use a content-based approach that compares a user's musical preferences with song features such as genre, mood, energy, and tempo. Each song will receive a weighted similarity score, and the system will rank songs from highest to lowest to generate personalized recommendations. I plan to prioritize genre and mood because I believe they have the greatest influence on a song's overall vibe.
-
-### Planned Features
-
-**Song Object**
-- Song title
-- Artist
+**Song features**
+- Title and artist
 - Genre
 - Mood
-- Energy
+- Energy level
 - Tempo (BPM)
 
-**UserProfile Object**
-- Preferred genre
-- Preferred mood
-- Preferred energy level
-- Preferred tempo
-- Liked songs (for potential future improvements)
+**Scoring**
+
+Each song receives a weighted score using:
+
+`Final Score = (0.40 × Genre Match) + (0.30 × Mood Match) + (0.30 × Energy Similarity)`
+
+Genre and mood match receive a score of 1 when they match the profile and 0 when they do not. Energy similarity compares the song’s energy with the target of 0.8, calculated as `1 - |song_energy - 0.8|`. The highest possible final score is 1.0.
+
+The recommender calculates this score for every song, sorts the songs from highest to lowest score, and returns the top 5 recommendations.
+
+**Potential biases and limitations**
+
+The small, predefined catalog may not represent every genre, artist, or mood. Matching only Hip-Hop and Energetic music can over-recommend familiar styles and narrow the user’s choices. The energy score is a simple numeric comparison, so it may miss useful details about rhythm or lyrics. Because the system is based on fixed preferences rather than listening history, it cannot learn from feedback or recognize changing tastes.
 
 ---
 
@@ -91,14 +86,48 @@ You can add more tests in `tests/test_recommender.py`.
 
 Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
 
-```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
-```
+Top 5 Recommendations
+========================
+
+1. Sunrise City
+   Artist: Neon Echo
+   Score: 0.99
+   Reasons:
+   - Genre matches your preference: pop
+   - Mood matches your preference: happy
+   - Energy similarity is 0.98 (song: 0.82, target: 0.80)
+
+2. Gym Hero
+   Artist: Max Pulse
+   Score: 0.66
+   Reasons:
+   - Genre matches your preference: pop
+   - Mood 'intense' differs from your preference 'happy'
+   - Energy similarity is 0.87 (song: 0.93, target: 0.80)
+
+3. Rooftop Lights
+   Artist: Indigo Parade
+   Score: 0.59
+   Reasons:
+   - Genre 'indie pop' differs from your preference 'pop'
+   - Mood matches your preference: happy
+   - Energy similarity is 0.96 (song: 0.76, target: 0.80)
+
+4. Night Drive Loop
+   Artist: Neon Echo
+   Score: 0.28
+   Reasons:
+   - Genre 'synthwave' differs from your preference 'pop'
+   - Mood 'moody' differs from your preference 'happy'
+   - Energy similarity is 0.95 (song: 0.75, target: 0.80)
+
+5. Backbeat Revolution
+   Artist: Copper District
+   Score: 0.28
+   Reasons:
+   - Genre 'funk' differs from your preference 'pop'
+   - Mood 'energetic' differs from your preference 'happy'
+   - Energy similarity is 0.92 (song: 0.88, target: 0.80)
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 

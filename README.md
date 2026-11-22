@@ -29,6 +29,27 @@ Some prompts to answer:
 
 You can include a simple diagram or bullet list if helpful.
 
+### How The System Works
+
+Real-world music recommendation systems analyze user behavior and song characteristics to predict which songs a listener might enjoy. Collaborative filtering uses listening patterns from similar users, while content-based filtering recommends songs based on their attributes. My simulation will use a content-based approach that compares a user's musical preferences with song features such as genre, mood, energy, and tempo. Each song will receive a weighted similarity score, and the system will rank songs from highest to lowest to generate personalized recommendations. I plan to prioritize genre and mood because I believe they have the greatest influence on a song's overall vibe.
+
+### Planned Features
+
+**Song Object**
+- Song title
+- Artist
+- Genre
+- Mood
+- Energy
+- Tempo (BPM)
+
+**UserProfile Object**
+- Preferred genre
+- Preferred mood
+- Preferred energy level
+- Preferred tempo
+- Liked songs (for potential future improvements)
+
 ---
 
 ## Getting Started
